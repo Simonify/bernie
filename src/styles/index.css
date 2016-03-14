@@ -1,0 +1,28 @@
+/*
+ * Component styling should be done using style props.
+ *
+ * This file is solely for top-level global styles that can't easily be defined
+ * within React.
+ */
+@import "./normalize.css";
+@import "./animations.css";
+@import "./fonts.css";
+@import "./header.css";
+@import "./home/index.css";
+@import "./videos/index.css";
+@import "./watch/index.css";
+
+html, body {
+  background-color: #000000;
+}
+
+body, body * {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-component {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}

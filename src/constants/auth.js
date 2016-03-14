@@ -1,0 +1,15 @@
+export const AUTHENTICATE = 'AUTHENTICATE';
+export const UNAUTHENTICATE = 'UNAUTHENTICATE';
+
+export const FETCH_USER = 'FETCH_USER';
+export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
+export const FETCH_USER_ERROR = 'FETCH_USER_ERROR';
+
+export const SET_USER = 'SET_USER';
+export const UNSET_USER = 'UNSET_USER';
+export const SET_TOKEN = 'SET_TOKEN';
+export const UNSET_TOKEN = 'SET_TOKEN';
+export const INVALID_TOKEN = 'INVALID_TOKEN';
+
+export const SET_REQUIRE_AUTH = 'SET_REQUIRE_AUTH';
+export const SET_AUTHENTICATING = 'SET_AUTHENTICATING';

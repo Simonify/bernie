@@ -1,0 +1,10 @@
+@import "./video.css";
+
+.videos-component {
+  position: relative;
+  font-size: 0;
+
+  .video-component {
+    width: 25%;
+  }
+}

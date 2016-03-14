@@ -1,0 +1,124 @@
+.header-component {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+
+  a:active {
+    position: relative;
+    top: 1px;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .default {
+    transition: transform 250ms ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    height: 100px;
+    padding: 35px;
+
+    & .left {
+      display: flex;
+      flex-grow: 1;
+    }
+
+    & .logo {
+      font-size: 32px;
+      font-weight: 500;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    & .right {
+      flex-grow: 0;
+      flex-shrink: 0;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn {
+      transition: box-shadow 500ms ease;
+      display: flex;
+      padding: 0 20px;
+      height: 45px;
+      background-color: #FFFFFF;
+      border-radius: 30px;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Gotham';
+      font-size: 18px;
+      font-weight: 500;
+      text-decoration: none;
+      color: #04131F;
+
+      &:hover {
+        box-shadow: 0px 0px 22px 0px rgba(255, 255, 255, 0.5);
+      }
+    }
+  }
+
+  .scrolled {
+    transition: transform 250ms ease;
+    transform: translateY(-120px);
+    background-color: #FFFFFF;
+    padding: 20px 35px;
+    z-index: 2;
+
+    & .logo {
+      font-size: 32px;
+      font-weight: 500;
+      color: #0066BA;
+      text-decoration: none;
+    }
+
+    & .btn {
+      transition: background-color 500ms ease;
+      display: flex;
+      padding: 0 20px;
+      height: 42px;
+      justify-content: center;
+      align-items: center;
+      background-color: #0066BA;
+      border-radius: 30px;
+      font-family: 'Gotham';
+      font-size: 16px;
+      font-weight: 500;
+      text-decoration: none;
+      color: #FFFFFF;
+
+      &:hover {
+        background-color: #048EFF;
+      }
+    }
+
+    & .right {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: 0;
+      right: 0;
+      height: 100%;
+      padding: 0 35px;
+    }
+  }
+
+  &.is-scrolled {
+    .default {
+      transform: translateY(-120px);
+    }
+
+    .scrolled {
+      transform: translateY(0px);
+    }
+  }
+}
