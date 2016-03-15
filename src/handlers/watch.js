@@ -3,6 +3,7 @@ import Helmet from 'react-helmet';
 import Watch from 'components/watch';
 import getVideoById from 'fn/getVideoById';
 import getVideoImage from 'fn/getVideoImage';
+import getOpenGraph from 'fn/getOpenGraph';
 
 export default class WatchHandler extends Component {
   static propTypes = {
@@ -32,10 +33,7 @@ export default class WatchHandler extends Component {
 
     return (
       <div className="handler">
-        <Helmet meta={[
-          { property: 'og:title', content: `Why I'm voting for Bernie Sanders` },
-          { property: 'og:image', content: getVideoImage(this.state.video) }
-        ]} />
+        <Helmet meta={getOpenGraph(this.state.video)} />
         <Watch video={this.state.video} />
       </div>
     );

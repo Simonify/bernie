@@ -33,7 +33,6 @@ export default class Watch extends Component {
   }
 
   render() {
-    console.log(JSON.stringify(this.context));
     const video = this.props.video;
     const className = ClassName('watch-component', { 'is-visible': this.state.mounted });
     const url = `${this.context.config.url}/watch/${video.get('id')}`;
