@@ -10,7 +10,6 @@
     "build:bumps": "babel-node utils/generateBumps.js"
   },
   "dependencies": {
-    "babel-core": "^6.4.0",
     "class-name": "^0.1.2",
     "cookies": "^0.5.1",
     "cookies-js": "^1.2.2",
@@ -47,6 +46,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
+    "babel-core": "^6.4.0",
     "babel-eslint": "^4.1.6",
     "babel-loader": "^6.2.1",
     "babel-plugin-react-transform": "^2.0.0",
@@ -56,7 +56,6 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
     "css-loader": "^0.23.1",
-    "dotenv": "^2.0.0",
     "eslint": "^1.9.0",
     "eslint-config-airbnb": "^4.0.0",
     "eslint-plugin-react": "^3.8.0",
