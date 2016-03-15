@@ -5,11 +5,6 @@
   width: 100%;
   z-index: 2;
 
-  a:active {
-    position: relative;
-    top: 1px;
-  }
-
   .container {
     display: flex;
     justify-content: center;
@@ -18,6 +13,30 @@
     top: 0;
     left: 0;
     width: 100%;
+  }
+
+  .logo:active {
+    position: relative;
+    top: 1px;
+  }
+
+  .btn {
+    transition: box-shadow 500ms ease, background-color 500ms ease, transform 500ms ease;
+    display: flex;
+    padding: 0 20px;
+    border-radius: 30px;
+    justify-content: center;
+    align-items: center;
+    font-family: 'proxima-nova', Helvetica, Arial;
+    text-decoration: none;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &:active {
+      padding-top: 2px;
+    }
   }
 
   .default {
@@ -46,18 +65,10 @@
     }
 
     .btn {
-      transition: box-shadow 500ms ease;
-      display: flex;
-      padding: 0 20px;
       height: 45px;
       background-color: #FFFFFF;
-      border-radius: 30px;
-      justify-content: center;
-      align-items: center;
-      font-family: 'proxima-nova', Helvetica, Arial;
       font-size: 18px;
       font-weight: 500;
-      text-decoration: none;
       color: #04131F;
 
       &:hover {
@@ -81,18 +92,10 @@
     }
 
     & .btn {
-      transition: background-color 500ms ease;
-      display: flex;
-      padding: 0 20px;
       height: 42px;
-      justify-content: center;
-      align-items: center;
       background-color: #0066BA;
-      border-radius: 30px;
-      font-family: 'proxima-nova', Helvetica, Arial;
       font-size: 16px;
       font-weight: 500;
-      text-decoration: none;
       color: #FFFFFF;
 
       &:hover {

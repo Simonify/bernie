@@ -1,8 +1,7 @@
-import shuffle from 'lodash/shuffle';
 import { fromJS } from 'immutable';
 import { YOUTUBE } from 'constants/videos';
 
-export default fromJS(shuffle([
+export default fromJS([
   {
     type: YOUTUBE,
     id: '6qMA4ZSB_P4',
@@ -85,4 +84,4 @@ export default fromJS(shuffle([
     id: 'PO40vGZkRWc',
     tags: ['college']
   }
-]));
+]);
