@@ -25,7 +25,7 @@ export default class Header extends Component {
         <div className="default container">
           <div className="left">
             <a className="logo campaign-font" href="/" target="_self">
-              Americans for Bernie
+              #EndorseTheBern
             </a>
           </div>
           <div className="right">

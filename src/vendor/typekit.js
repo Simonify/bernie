@@ -6,11 +6,13 @@ if (!document.getElementById(id)) {
 
   js.id = id;
   js.src = 'https://use.typekit.net/ejq6aeo.js';
-  js.onload = () => {
+  js.addEventListener('load', function() {
     try {
       Typekit.load({ async: true });
-    } catch(e) {}
-  };
+    } catch (err) {
+      console.log(err);
+    }
+  }, false);
 
   script.parentNode.insertBefore(js, script);
 }
