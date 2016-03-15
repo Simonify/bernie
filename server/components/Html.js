@@ -54,6 +54,10 @@ export default class HtmlComponent extends Component {
           {Object.keys(this.props.assets.javascript).map((script, i) => (
             <script async defer src={this.props.assets.javascript[script]} key={i} />
           ))}
+          <script src="https://use.typekit.net/ejq6aeo.js" />
+          <script dangerouslySetInnerHTML={{
+            __html: `try{Typekit.load({ async: true });}catch(e){}`
+          }} />
         </body>
       </html>
     );
