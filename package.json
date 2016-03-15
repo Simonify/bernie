@@ -7,7 +7,7 @@
     "dev": "BABEL_ENV=browser NODE_ENV=development PORT=8356 node webpack/server",
     "prod": "BABEL_ENV=production NODE_ENV=production PORT=8356 node server/index.js",
     "build": "rm -rf dist/* && BABEL_ENV=production babel-node ./node_modules/.bin/webpack --progress --stats --config ./webpack/webpack.config.production.js",
-    "build:bumps": "babel-node utils/generateBumps.js"
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "class-name": "^0.1.2",
