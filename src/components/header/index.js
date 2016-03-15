@@ -9,11 +9,13 @@ import ClassName from 'class-name';
 export default class Header extends Component {
   static propTypes = {
     scrolled: PropTypes.bool.isRequired,
+    onScroll: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired
   };
 
   constructor(props, context) {
     super(props, context);
+    this._onMouseWheel = ::this._onMouseWheel;
     this._onClickSubmit = ::this._onClickSubmit;
   }
 
@@ -21,7 +23,7 @@ export default class Header extends Component {
     const className = ClassName('header-component', { 'is-scrolled': this.props.scrolled });
 
     return (
-      <div className={className}>
+      <div className={className} onWheel={this._onMouseWheel}>
         <div className="default container">
           <div className="left">
             <a className="logo campaign-font" href="/" target="_self">
@@ -48,6 +50,10 @@ export default class Header extends Component {
         </div>
       </div>
     );
+  }
+
+  _onMouseWheel(event) {
+    this.props.onScroll(event);
   }
 
   _onClickSubmit(event) {
