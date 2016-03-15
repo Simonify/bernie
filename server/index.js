@@ -17,7 +17,6 @@ const webpackIsomorphicConf = require('../webpack/webpack.isomorphic.config.js')
 const getConfig = require('../config').default;
 
 getConfig().then(function onConfig(config) {
-  console.log(config);
   const webpackIsomorphicTools = new WebpackIsomorphicToolsPlugin(webpackIsomorphicConf);
   webpackIsomorphicTools.development(process.env.NODE_ENV === 'development');
   webpackIsomorphicTools.server(projectBasePath, function ready() {

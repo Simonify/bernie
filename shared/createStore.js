@@ -8,7 +8,7 @@ export default function createStore(getComposed, initialState) {
   const composers = [universalMiddleware()];
   const composed = getComposed({ middleware, composers, applyMiddleware, compose });
   const _createStore = compose(...composed)(createReduxStore);
-  const store = _createStore(enableBatching(rootReducer), initialState);
+  const store = _createStore(rootReducer, initialState);
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
