@@ -1,5 +1,4 @@
 import { createStore as createReduxStore, applyMiddleware, compose } from 'redux';
-import { enableBatching } from 'redux-batched-actions';
 import thunk from 'redux-thunk';
 import rootReducer from 'src/reducers';
 import universalMiddleware from './universalMiddleware';

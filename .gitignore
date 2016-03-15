@@ -1,11 +1,11 @@
 .DS_Store
+.env
 npm-debug.log
 dump.rdb
 NOTES
 
 node_modules/
 server/lib
-config.js
 webpack-assets.json
 
 dist/
