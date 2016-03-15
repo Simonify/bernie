@@ -4,7 +4,7 @@ import {
 } from 'constants/app';
 
 const defaultState = new Map({
-  title: 'Americans for Bernie'
+  title: process.env.CLIENT_TITLE
 });
 
 export default function app(state = defaultState, action) {

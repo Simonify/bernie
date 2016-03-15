@@ -1,18 +1,20 @@
-import React, { cloneElement } from 'react';
+import React, { PropTypes } from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { resolveUniversal } from 'shared/universalMiddleware';
+import createContext from 'shared/createContext';
 import HtmlComponent from 'server/components/Html';
 
 const { BROWSER } = process.env;
-const Radium = ({ router, userAgent }) => (
-  cloneElement(router, { radiumConfig: { userAgent: userAgent || '' } })
-);
 
 export default function universalRender({ store, router, assets, options, userAgent }) {
+  const AppWithContext = createContext(router, {
+    config: PropTypes.object.isRequired
+  }, { config: options });
+
   const provider = (
     <Provider store={store}>
-      <Radium userAgent={userAgent} router={router} />
+      <AppWithContext />
     </Provider>
   );
 

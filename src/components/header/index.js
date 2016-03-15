@@ -37,7 +37,7 @@ export default class Header extends Component {
         <div className="scrolled container">
           <div className="center">
             <a className="logo campaign-font" href="/" target="_self">
-              Americans for Bernie
+              #EndorseTheBern
             </a>
           </div>
           <div className="right">

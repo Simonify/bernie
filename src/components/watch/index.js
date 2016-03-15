@@ -8,7 +8,7 @@ import { YOUTUBE } from 'constants/videos';
 
 @immutableRenderDecorator
 @connect(() => ({}), { pushState })
-export default class Video extends Component {
+export default class Watch extends Component {
   static contextTypes = {
     config: PropTypes.object.isRequired
   };
@@ -33,6 +33,7 @@ export default class Video extends Component {
   }
 
   render() {
+    console.log(JSON.stringify(this.context));
     const video = this.props.video;
     const className = ClassName('watch-component', { 'is-visible': this.state.mounted });
     const url = `${this.context.config.url}/watch/${video.get('id')}`;

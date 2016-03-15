@@ -6,7 +6,6 @@ import universalRender from 'shared/universalRender';
 import createServerMiddleware from 'shared/createServerMiddleware';
 import createHttpRequest from 'shared/createHttpRequest';
 import createAppStore from 'utils/createAppStore';
-import createContext from 'utils/createContext';
 import createCookieMiddleware from 'utils/createCookieMiddleware';
 import createLocalStorageMiddleware from 'utils/createLocalStorageMiddleware';
 import createFocusListener from 'utils/createFocusListener';
@@ -33,11 +32,8 @@ export default function createApp({ state, config }) {
 
   createFocusListener(store);
 
-  universalRender({ history, store, router, userAgent }).then((element) => {
-    const AppWithContext = createContext(element, {
-      config: PropTypes.object.isRequired
-    }, { config });
-    render(<AppWithContext />, node);
+  universalRender({ history, store, router, userAgent, options: config }).then((element) => {
+    render(element, node);
   });
 
   return { store };

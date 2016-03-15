@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { renderToString } from 'react-dom/server';
+import Helmet from 'react-helmet';
 import { FONT_FAMILY, FONT_COLOR } from 'shared/constants/styles';
 
 const styles = {
@@ -34,6 +35,7 @@ export default class HtmlComponent extends Component {
 
   render() {
     const __html = this.props.children ? renderToString(this.props.children) : null;
+    const head = Helmet.rewind();
     const styleKeys = Object.keys(this.props.assets.styles);
 
     return (
@@ -41,7 +43,10 @@ export default class HtmlComponent extends Component {
         <head>
           <meta charSet="UTF-8" />
           <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
-          <title>{this.props.options.title}</title>
+          {head.base.toComponent()}
+          {head.title.toComponent()}
+          {head.meta.toComponent()}
+          {head.link.toComponent()}
           {styleKeys.map((style, i) => (
             <link href={this.props.assets.styles[style]} key={i} media="screen, projection" rel="stylesheet" type="text/css" />
           ))}

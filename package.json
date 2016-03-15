@@ -32,6 +32,7 @@
     "qs": "^6.1.0",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
+    "react-helmet": "^2.3.1",
     "react-immutable-render-mixin": "^0.9.2",
     "react-list": "^0.7.14",
     "react-loader": "^2.0.0",
