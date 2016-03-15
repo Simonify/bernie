@@ -27,7 +27,7 @@ export default class Header extends Component {
         <div className="default container">
           <div className="left">
             <a className="logo campaign-font" href="/" target="_self">
-              #EndorseTheBern
+              Why The Bern?
             </a>
           </div>
           <div className="right">
@@ -39,7 +39,7 @@ export default class Header extends Component {
         <div className="scrolled container">
           <div className="center">
             <a className="logo campaign-font" href="/" target="_self">
-              #EndorseTheBern
+              Why The Bern?
             </a>
           </div>
           <div className="right">
