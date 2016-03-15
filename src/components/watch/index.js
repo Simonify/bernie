@@ -9,6 +9,10 @@ import { YOUTUBE } from 'constants/videos';
 @immutableRenderDecorator
 @connect(() => ({}), { pushState })
 export default class Video extends Component {
+  static contextTypes = {
+    config: PropTypes.object.isRequired
+  };
+
   static propTypes = {
     video: PropTypes.object.isRequired
   };
@@ -22,15 +26,30 @@ export default class Video extends Component {
   componentDidMount() {
     findDOMNode(this).offsetHeight;
     this.setState({ mounted: true });
+
+    if (typeof FB === 'object' && typeof FB.XFBML === 'object') {
+      FB.XFBML.parse && FB.XFBML.parse();
+    }
   }
 
   render() {
+    const video = this.props.video;
     const className = ClassName('watch-component', { 'is-visible': this.state.mounted });
+    const url = `${this.context.config.url}/watch/${video.get('id')}`;
 
     return (
       <div className={className} onClick={this._onClick}>
         <div className="container" onClick={this._onClick}>
-          {this.renderVideo()}
+          <div className="video">
+            {this.renderVideo()}
+          </div>
+          <div className="share">
+            <div
+              className="fb-share-button"
+              data-layout="button_count"
+              data-href={url}
+            />
+          </div>
         </div>
         <div className="overlay" onClick={this._onClick} />
       </div>

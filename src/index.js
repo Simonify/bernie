@@ -2,6 +2,11 @@ import debug from 'debug';
 import createApp from './createApp';
 import './styles/index.css';
 
+if (process.env.BROWSER) {
+  require('./vendor/facebook');
+  require('./vendor/typekit');
+}
+
 const { NODE_ENV } = process.env;
 
 if (NODE_ENV !== 'production') {

@@ -48,16 +48,13 @@ export default class HtmlComponent extends Component {
         </head>
         <body style={{ ...styles.reset, ...styles.body }}>
           <div id="root" style={styles.root} dangerouslySetInnerHTML={{ __html }} />
+          <div id="fb-root"></div>
           <script dangerouslySetInnerHTML={{
             __html: `window._state = ${JSON.stringify({ state: this.props.state, config: this.props.options })}`
           }} />
           {Object.keys(this.props.assets.javascript).map((script, i) => (
             <script async defer src={this.props.assets.javascript[script]} key={i} />
           ))}
-          <script src="https://use.typekit.net/ejq6aeo.js" />
-          <script dangerouslySetInnerHTML={{
-            __html: `try{Typekit.load({ async: true });}catch(e){}`
-          }} />
         </body>
       </html>
     );
