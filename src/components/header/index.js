@@ -48,7 +48,12 @@ export default class Header extends Component {
   }
 
   renderRecord() {
-    if (process.env.BROWSER && typeof navigator.getUserMedia === 'undefined') {
+    if (
+      process.env.BROWSER
+      && typeof navigator.getUserMedia === 'undefined'
+      && typeof navigator.webkitGetUserMedia === 'undefined'
+      && typeof navigator.mozGetUserMedia === 'undefined'
+    ) {
       return null;
     }
 
