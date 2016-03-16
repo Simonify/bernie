@@ -48,6 +48,10 @@ export default class Header extends Component {
   }
 
   renderRecord() {
+    if (BROWSER && typeof navigator.getUserMedia === 'undefined') {
+      return null;
+    }
+
     return (
       <a className="btn" href="/record" onClick={this._onClickSubmit}>
         Record your own video
