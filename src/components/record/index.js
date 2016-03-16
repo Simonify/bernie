@@ -171,9 +171,14 @@ export default class Record extends Component {
 
   _updateCountdown = () => {
     if (this._mounted !== false && this.state.recording) {
-      this.setState({
-        remaining: Math.max(60 - Math.round((Date.now() - this.state.recordingStart) / 1000, 0))
-      });
+      const remaining = Math.max(60 - Math.round((Date.now() - this.state.recordingStart) / 1000, 0));
+
+      this.setState({ remaining });
+
+      if (remaining === 0) {
+        this._recorder.stop();
+        return;
+      }
 
       setTimeout(this._updateCountdown, 500);
     }
