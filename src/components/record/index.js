@@ -135,7 +135,7 @@ export default class Record extends Component {
       recording: false,
       disabled: false,
       video: true,
-      playing: false
+      playing: true
     });
   }
 

@@ -48,7 +48,7 @@ export default class Recorder extends Component {
   }
 
   render() {
-    return (<video className="recorder-component" muted />);
+    return (<video className="recorder-component" />);
   }
 
   _initialize(videoNode) {
@@ -74,8 +74,8 @@ export default class Recorder extends Component {
         this._recorder.getBlob(({ audio, video }) => {
           stateMode = 'playback';
 
-          videoNode.src = URL.createObjectURL(video);
           videoNode.muted = false;
+          videoNode.src = URL.createObjectURL(video);
 
           videoNode.onended = () => {
             videoNode.src = URL.createObjectURL(video);
