@@ -49,12 +49,13 @@ export default class Recorder extends Component {
     const onMediaSuccess = (stream) => {
       this._mediaStream = stream;
 
-      if (typeof node.srcObject !== 'undefined') {
-        node.srcObject = stream;
-      } else {
+      // if (typeof node.srcObject !== 'undefined') {
+      //   node.srcObject = stream;
+      // } else {
         node.src = URL.createObjectURL(stream);
-      }
+      // }
 
+      node.muted = true;
       node.play();
 
       let stateMode = 'recorder';
@@ -65,14 +66,17 @@ export default class Recorder extends Component {
       const stopRecording = () => lease.stop();
       const lease = {
         start: () => {
-          if (typeof node.srcObject !== 'undefined') {
-            node.srcObject = stream;
-          } else {
+          // if (typeof node.srcObject !== 'undefined') {
+          //   node.srcObject = stream;
+          // } else {
             node.src = URL.createObjectURL(stream);
-          }
+          // }
 
           stateMode = 'recorder';
+
           node.muted = true;
+          node.play();
+
           this._recorder = RecordRTC(stream, { type: 'video' });
           this._recorder.setRecordingDuration(60 * 1000, (src) => {
             stateMode = 'playback';
