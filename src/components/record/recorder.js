@@ -53,7 +53,7 @@ export default class Recorder extends Component {
       let timer;
 
       function attachRecorder() {
-        node.srcObject = null;
+        node.srcObject = undefined;
         node.src = '';
 
         if (typeof node.srcObject !== 'undefined') {
@@ -70,7 +70,7 @@ export default class Recorder extends Component {
 
       const showRecording = (url) => {
         stateMode = 'playback';
-        node.srcObject = null;
+        node.srcObject = undefined;
         node.src = url;
         node.muted = false;
         node.onended = () => {
