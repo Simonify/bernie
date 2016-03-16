@@ -67,7 +67,7 @@ export default class Video extends Component {
     return (
       <a className={className} href={`/watch/${video.get('id')}`} onClick={this._onClick}>
         <div className="container">
-          <span className="tag">#{tag}</span>
+          {tag ? (<span className="tag">#{tag}</span>) : null}
         </div>
         <div className="image" style={imageStyle} />
       </a>

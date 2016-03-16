@@ -28,17 +28,12 @@ export default class Videos extends Component {
   render() {
     return (
       <div className="videos-component">
-        <ReactList
-          itemRenderer={this.renderItem}
-          length={this.props.videos.size}
-          type="uniform"
-        />
+        {this.props.videos.map(this.renderItem)}
       </div>
     );
   }
 
-  renderItem(index, key) {
-    const video = this.props.videos.valueSeq().get(index);
-    return <Video key={key} video={video} />;
+  renderItem(video) {
+    return <Video key={video.get('id')} video={video} />;
   }
 }
