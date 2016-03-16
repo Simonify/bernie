@@ -30,9 +30,7 @@ export default class Header extends Component {
             </a>
           </div>
           <div className="right">
-            <a className="btn" href="/record" onClick={this._onClickSubmit}>
-              Record your own video
-            </a>
+            {this.renderRecord()}
           </div>
         </div>
         <div className="scrolled container">
@@ -42,13 +40,23 @@ export default class Header extends Component {
             </a>
           </div>
           <div className="right">
-            <a className="btn" href="/record" onClick={this._onClickSubmit}>
-              Record your own video
-            </a>
+            {this.renderRecord()}
           </div>
         </div>
       </div>
     );
+  }
+
+  renderRecord() {
+    if (window.navigator.userAgent.indexOf('Chrome/') > -1) {
+      return (
+        <a className="btn" href="/record" onClick={this._onClickSubmit}>
+          Record your own video
+        </a>
+      );
+    }
+
+    return null;
   }
 
   _onMouseWheel(event) {
