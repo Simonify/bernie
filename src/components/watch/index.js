@@ -43,7 +43,7 @@ export default class Watch extends Component {
           <div className="video">
             {this.renderVideo()}
           </div>
-          <div className="share">
+          <div className="share" onClick={this._onClick}>
             <div
               className="fb-share-button"
               data-layout="button_count"
