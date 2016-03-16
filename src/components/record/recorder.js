@@ -73,10 +73,12 @@ export default class Recorder extends Component {
         node.srcObject = undefined;
         node.src = url;
         node.muted = false;
+
         node.onended = () => {
           node.src = url;
           this.props.onEnd();
         };
+
         node.play();
         this.props.onRecordingStop();
       };
@@ -84,7 +86,12 @@ export default class Recorder extends Component {
       const startRecording = () => {
         attachRecorder();
 
-        this._recorder = RecordRTC(stream, { type: 'video' });
+        this._recorder = RecordRTC(stream, {
+          type: 'video',
+          bufferSize: 16384,
+          sampleRate: 44100
+        });
+
         this._recorder.setRecordingDuration(60 * 1000, showRecording);
         this._recorder.startRecording();
       };
