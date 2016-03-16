@@ -48,7 +48,9 @@ export default class Header extends Component {
   }
 
   renderRecord() {
-    if (window.navigator.userAgent.indexOf('Chrome/') > -1) {
+    // TODO: Change this as it'll break React using the server response.
+
+    if (process.env.BROWSER && window.navigator.userAgent.indexOf('Chrome/') > -1) {
       return (
         <a className="btn" href="/record" onClick={this._onClickSubmit}>
           Record your own video
