@@ -53,7 +53,9 @@ export default class Recorder extends Component {
       let timer;
 
       function attachRecorder() {
-        console.log('#attach recordER');
+        node.srcObject = null;
+        node.src = '';
+
         if (typeof node.srcObject !== 'undefined') {
           node.srcObject = stream;
         } else {
