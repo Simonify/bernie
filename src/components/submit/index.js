@@ -149,8 +149,8 @@ export default class Submit extends Component {
 
     if (this.state.submitting) {
       if (typeof this.state.progress === 'number') {
-        const progress = this.state.progress === 100 ? 'processing' : this.state.progress;
-        text = `Submitting Video (${progress}%)...`;
+        const progress = this.state.progress === 100 ? 'processing' : `${this.state.progress}%`;
+        text = `Submitting Video (${progress})...`;
       } else {
         text = `Submitting Video...`;
       }
