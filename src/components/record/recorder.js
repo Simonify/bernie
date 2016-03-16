@@ -88,7 +88,12 @@ export default class Recorder extends Component {
       };
 
       const stopRecording = () => {
-        this._recorder.stopRecording(showRecording);
+        /**
+         * Add a small delay as it seems to cut off videos early sometimes..
+         */
+        setTimeout(() => {
+          this._recorder.stopRecording(showRecording);
+        }, 500);
       };
 
       const lease = {
