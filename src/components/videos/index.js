@@ -22,7 +22,7 @@ export default class Videos extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchVideos();
+    // this.props.fetchVideos();
   }
 
   render() {

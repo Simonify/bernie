@@ -50,6 +50,16 @@ export default class WatchHandler extends Component {
       if (!video) {
         props.fetchVideo(id).catch(this._videoNotFound);
       }
+
+      return;
+    }
+
+    if (this.props.videos !== props.videos) {
+      const video = props.videos.get(props.routeParams.id);
+
+      if (this.state.video !== video) {
+        this.setState({ video });
+      }
     }
   }
 
