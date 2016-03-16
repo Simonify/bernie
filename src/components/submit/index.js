@@ -111,13 +111,7 @@ export default class Submit extends Component {
           </div>
           <div className="padded">
             {this.renderError()}
-            <button
-              className={ClassName('submit', { 'is-disabled': this.state.submitting })}
-              type="submit"
-              disabled={this.state.submitting}
-            >
-              {this.state.submitting ? 'Submitting Video...' : 'Submit Video'}
-            </button>
+            {this.renderButton()}
             <p className="description">
               By submitting your endorsement you grant www.whythebern.com full
               permission to embed and share your video.
@@ -149,6 +143,28 @@ export default class Submit extends Component {
     }
   }
 
+  renderButton() {
+    const className = ClassName('submit', { 'is-disabled': this.state.submitting });
+    let text;
+
+    if (this.state.submitting) {
+      if (typeof this.state.progress === 'number') {
+        const progress = this.state.progress === 100 ? 'processing' : this.state.progress;
+        text = `Submitting Video (${progress})...`;
+      } else {
+        text = `Submitting Video...`;
+      }
+    } else {
+      text = 'Submit Video';
+    }
+
+    return (
+      <button className={className} type="submit" disabled={this.state.submitting}>
+        {text}
+      </button>
+    );
+  }
+
   _onClick(event) {
     if (event.target === event.currentTarget) {
       if (!this.state.submitted && !window.confirm('Are you sure you want to exit your endorsement?')) {
@@ -165,7 +181,7 @@ export default class Submit extends Component {
 
   _onSubmit(event) {
     event.preventDefault();
-    this.setState({ submitting: true, error: null });
+    this.setState({ submitting: true, error: null, progress: null });
 
     const xhr = new XMLHttpRequest();
     const form = new FormData();
@@ -182,6 +198,12 @@ export default class Submit extends Component {
     }
 
     form.append('video', this.props.video);
+
+    xhr.upload.addEventListener('progress', (event) => {
+      if (event.lengthComputable) {
+        this.setState({ progress: Math.round((event.loaded / event.total) * 100) });
+      }
+    });
 
     xhr.addEventListener('readystatechange', () => {
       if (xhr.readyState === 4) {
@@ -200,13 +222,14 @@ export default class Submit extends Component {
 
           this.setState({
             error: (json.data && json.data.message) || true,
-            submitting: false
+            submitting: false,
+            progress: null
           });
 
           return;
         }
 
-        this.setState({ error: true, submitting: false });
+        this.setState({ error: true, submitting: false, progress: null });
       }
     });
 
