@@ -30,7 +30,7 @@
   }
 
   .image {
-    transition: transform 500ms ease;
+    transition: transform 500ms ease, opacity 250ms ease;
     position: absolute;
     top: 0;
     left: 0;
@@ -39,7 +39,13 @@
     background-size: cover;
     background-position: 50% 50%;
     z-index: 0;
-    opacity: 0.7;
+    opacity: 0;
+  }
+
+  &.is-loaded {
+    .image {
+      opacity: 0.7;
+    }
   }
 
   &:hover {

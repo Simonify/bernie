@@ -24,25 +24,14 @@ export default class Video extends Component {
     this._onImageLoaded = ::this._onImageLoaded;
 
     const image = getVideoImage(props.video, this.context.config);
-    let loaded = false;
 
-    if (process.env.BROWSER) {
-      this._imageNode = document.createElement('img');
-      this._imageNode.src = image;
-      loaded = typeof this._imageNode.naturalHeight !== 'undefined';
-    }
-
-    this.state = { image, loaded };
+    this.state = { image, loaded: false };
   }
 
   componentDidMount() {
-    if (!this.state.loaded) {
-      if (typeof this._imageNode.naturalHeight !== 'undefined') {
-        this._imageNode.addEventListener('load', this._onImageLoaded, false);
-      } else {
-        this.setState({ loaded: true });
-      }
-    }
+    this._imageNode = document.createElement('img');
+    this._imageNode.addEventListener('load', this._onImageLoaded, false);
+    this._imageNode.src = this.state.image;
   }
 
   componentWillUnmount() {
