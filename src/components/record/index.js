@@ -20,6 +20,7 @@ export default class Record extends Component {
     this._onRecordingStop = ::this._onRecordingStop;
     this._toggleRecording = ::this._toggleRecording;
     this._togglePlayback = ::this._togglePlayback;
+    this._resetVideo = ::this._resetVideo;
     this._onEnd = ::this._onEnd;
     this._onSubmit = ::this._onSubmit;
     this.state = { mounted: false, ready: false, recording: false, disabled: false };
@@ -91,6 +92,11 @@ export default class Record extends Component {
         <div className="action" onClick={this._toggleRecording}>
           {this.state.recording ? `${this.state.remaining}s remaining - click to stop` : 'Start Recording'}
         </div>
+        {!this.state.recording && this.state.video ? (
+          <div className="action" onClick={this._resetVideo}>
+            Reset
+          </div>
+        ) : null}
         {!this.state.recording && this.state.video ? (
           <div className="action" onClick={this._togglePlayback}>
             {this.state.playing ? 'Pause' : 'Play'}
@@ -172,6 +178,13 @@ export default class Record extends Component {
       setTimeout(this._updateCountdown, 500);
     }
   };
+
+  _resetVideo() {
+    this._recorder.reset();
+    this.setState({
+      video: null
+    })
+  }
 
   _onEnd() {
     this.setState({ playing: false });

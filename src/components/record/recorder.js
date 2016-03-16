@@ -49,51 +49,52 @@ export default class Recorder extends Component {
     const onMediaSuccess = (stream) => {
       this._mediaStream = stream;
 
-      // if (typeof node.srcObject !== 'undefined') {
-      //   node.srcObject = stream;
-      // } else {
-        node.src = URL.createObjectURL(stream);
-      // }
-
-      node.muted = true;
-      node.play();
-
-      let stateMode = 'recorder';
+      let stateMode;
       let timer;
 
-      node.addEventListener('ended', () => this.props.onEnd());
+      function attachRecorder() {
+        console.log('#attach recordER');
+        if (typeof node.srcObject !== 'undefined') {
+          node.srcObject = stream;
+        } else {
+          node.src = URL.createObjectURL(stream);
+        }
 
-      const stopRecording = () => lease.stop();
+        stateMode = 'recorder';
+
+        node.muted = true;
+        node.play();
+      };
+
+      const showRecording = (url) => {
+        stateMode = 'playback';
+        node.srcObject = null;
+        node.src = url;
+        node.muted = false;
+        node.onended = () => {
+          node.src = url;
+          this.props.onEnd();
+        };
+        node.play();
+        this.props.onRecordingStop();
+      };
+
+      const startRecording = () => {
+        attachRecorder();
+
+        this._recorder = RecordRTC(stream, { type: 'video' });
+        this._recorder.setRecordingDuration(60 * 1000, showRecording);
+        this._recorder.startRecording();
+      };
+
+      const stopRecording = () => {
+        this._recorder.stopRecording(showRecording);
+      };
+
       const lease = {
-        start: () => {
-          // if (typeof node.srcObject !== 'undefined') {
-          //   node.srcObject = stream;
-          // } else {
-            node.src = URL.createObjectURL(stream);
-          // }
-
-          stateMode = 'recorder';
-
-          node.muted = true;
-          node.play();
-
-          this._recorder = RecordRTC(stream, { type: 'video' });
-          this._recorder.setRecordingDuration(60 * 1000, (src) => {
-            stateMode = 'playback';
-            node.src = src;
-            this.props.onRecordingStop();
-          });
-
-          this._recorder.startRecording();
-        },
-
-        stop: (fn) => {
-          this._recorder.stopRecording((src) => {
-            stateMode = 'playback';
-            node.src = src;
-            this.props.onRecordingStop();
-          });
-        },
+        start: startRecording,
+        stop: stopRecording,
+        reset: attachRecorder,
 
         play: () => {
           if (stateMode === 'playback') {
@@ -116,7 +117,8 @@ export default class Recorder extends Component {
         }
       };
 
-      this.props.onReady(lease)
+      this.props.onReady(lease);
+      attachRecorder();
     };
 
     const onMediaError = (err) => {

@@ -73,7 +73,7 @@ export default class Watch extends Component {
         const src = `${this.context.config.staticHost || ''}/${this.props.video.get('id')}/video.mp4`;
 
         return (
-          <video className="video" src={src} controls autoPlay />
+          <video className="recorded-video" src={src} controls autoPlay />
         );
       }
 
