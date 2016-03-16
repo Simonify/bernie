@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import $script from 'scriptjs';
 import { findDOMNode } from 'react-dom';
 
 export default class Recorder extends Component {
@@ -23,6 +22,8 @@ export default class Recorder extends Component {
       this._initialize(node);
       return;
     }
+
+    const $script = require('scriptjs');
 
     $script('https://cdn.WebRTC-Experiment.com/RecordRTC.js', () => {
       if (this._mounted !== false) {
