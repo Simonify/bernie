@@ -74,15 +74,15 @@ export default class Recorder extends Component {
         this._recorder.getBlob(({ audio, video }) => {
           stateMode = 'playback';
 
+          videoNode.src = URL.createObjectURL(video);
+          videoNode.muted = false;
+
           videoNode.onended = () => {
             videoNode.src = URL.createObjectURL(video);
             this.props.onEnd();
           };
 
-          videoNode.src = URL.createObjectURL(video);
-          videoNode.muted = false;
           videoNode.play();
-
           this.props.onRecordingStop();
         });
       };
