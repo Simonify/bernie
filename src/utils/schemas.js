@@ -1,10 +1,7 @@
 import { Schema, arrayOf } from 'normalizr';
 
-const user = new Schema('users');
-const event = new Schema('events');
+const video = new Schema('videos');
 
 export default {
-  user, event,
-  events: arrayOf(event),
-  users: arrayOf(user)
+  video, videos: arrayOf(video)
 };

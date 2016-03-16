@@ -11,6 +11,9 @@
 @import "./home/index.css";
 @import "./videos/index.css";
 @import "./watch/index.css";
+@import "./modal/index.css";
+@import "./record/index.css";
+@import "./submit/index.css";
 
 html, body {
   background-color: #000000;

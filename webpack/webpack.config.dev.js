@@ -5,7 +5,7 @@ const startExpress = require('./utils/startExpress');
 const webpackIsoConfig = require('./webpack.isomorphic.config.js');
 const webpackIsoTools = new WebpackIsomorphicToolsPlugin(webpackIsoConfig).development();
 const HOST = process.env.HOST || 'localhost';
-const PORT = parseInt(process.env.PORT, 10) + 1 || 4201;
+const PORT = parseInt(process.env.PORT, 10) + 1;
 const PUBLIC_PATH = `//${HOST}:${PORT}/assets/`;
 
 const config = Object.create(baseConfig);
@@ -22,7 +22,7 @@ config.entry = {
 
 config.module.loaders.push(
   { test: /\.js$/, exclude: /node_modules|vendor/, loader: 'babel' },
-  { test: /\.css$/, exclude: /node_modules/, loader: 'style!css!postcss' },
+  { test: /\.css$/, loader: 'style!css!postcss' },
   { test: webpackIsoTools.regular_expression('images'), loader: 'url?limit=10240' }
 );
 

@@ -5,9 +5,8 @@ import path from 'path';
 import express from 'express';
 import helmet from 'helmet';
 import serveFavicon from 'serve-favicon';
-import { createMemoryHistory as createHistory } from 'history';
-import { ReduxRouter } from 'redux-router';
-import { match, reduxReactRouter } from 'redux-router/server';
+import { match, useRouterHistory, RouterContext, createMemoryHistory } from 'react-router';
+import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 import routes from 'shared/routes';
 import createStore from 'shared/createStore';
 import createServerMiddleware from 'shared/createServerMiddleware';
@@ -51,33 +50,28 @@ export default function createExpress(config, webpackIsomorphicTools) {
       req.cookies = new Cookies(req, res);
     }
 
+    const memoryHistory = createMemoryHistory(req.originalUrl);
     const getMiddleware = ({ middleware, composers, applyMiddleware }) => {
       const serverMiddleware = createServerMiddleware({ http: httpRequest });
       const cookieMiddleware = createCookieMiddlware({ req, res, options: options.cookies });
-
-      middleware.push(cookieMiddleware, serverMiddleware);
-
-      const composed = [
-        applyMiddleware(...middleware),
-        reduxReactRouter({ routes, createHistory })
-      ];
-
+      middleware.push(cookieMiddleware, serverMiddleware, routerMiddleware(memoryHistory));
+      const composed = [ applyMiddleware(...middleware) ];
       composed.unshift(...composers);
-
       return composed;
     };
 
     const initialState = {};
     const store = createStore(getMiddleware, initialState);
+    const history = syncHistoryWithStore(memoryHistory, store);
 
-    store.dispatch(match(req.originalUrl, (error, redirectLocation, routerState) => {
+    match({ history, routes, location: req.originalUrl }, (error, redirectLocation, routerState) => {
       if (error) {
         res.status(500).end();
         return;
       }
 
       if (redirectLocation) {
-        res.redirect(redirectLocation);
+        res.redirect(redirectLocation.pathname + redirectLocation.search);
         return;
       }
 
@@ -98,16 +92,14 @@ export default function createExpress(config, webpackIsomorphicTools) {
         return;
       }
 
-      const router = (<ReduxRouter />);
-
-      universalRender({ store, assets, userAgent, router, options }).then((body) => {
+      universalRender({ store, assets, userAgent, routes, history, options }).then((body) => {
         res.setHeader('Content-type', 'text/html');
         res.end(body);
       }).catch((err) => {
         res.status(500).end();
         console.error(err, err.stack.split('\n'));
       });
-    }));
+    });
   });
 
   server.listen(PORT);

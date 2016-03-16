@@ -7,7 +7,8 @@ export default async function getConfig() {
       url: process.env.CLIENT_URL,
       domain: process.env.CLIENT_DOMAIN,
       title: process.env.CLIENT_TITLE,
-      serverEndpoint: process.env.CLIENT_SERVER_ENDPOINT
+      serverEndpoint: process.env.CLIENT_SERVER_ENDPOINT,
+      staticHost: process.env.STATIC_HOST
     },
     server: {
       endpoint: process.env.SERVER_ENDPOINT,

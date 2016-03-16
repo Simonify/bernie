@@ -1,15 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
-import { pushState } from 'redux-router';
+import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import ClassName from 'class-name';
 import getVideoImage from 'fn/getVideoImage';
 
 @immutableRenderDecorator
-@connect(() => ({}), { pushState })
+@connect(() => ({}), { push })
 export default class Video extends Component {
+  static contextTypes = {
+    config: PropTypes.object.isRequired
+  };
+
   static propTypes = {
-    pushState: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
     video: PropTypes.object.isRequired
   };
 
@@ -19,7 +23,7 @@ export default class Video extends Component {
     this._onClick = ::this._onClick;
     this._onImageLoaded = ::this._onImageLoaded;
 
-    const image = getVideoImage(props.video);
+    const image = getVideoImage(props.video, this.context.config);
     let loaded = false;
 
     if (process.env.BROWSER) {
@@ -72,7 +76,7 @@ export default class Video extends Component {
 
   _onClick(event) {
     event.preventDefault();
-    this.props.pushState(null, `/watch/${this.props.video.get('id')}`);
+    this.props.push(`/watch/${this.props.video.get('id')}`);
   }
 
   _onImageLoaded() {

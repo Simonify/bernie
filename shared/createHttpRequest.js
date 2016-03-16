@@ -7,10 +7,10 @@ const HTTP_HEADERS = {
 };
 
 export default function createHttpRequest(props) {
-  return function httpRequest({ method, route, data: baseParams }) {
+  return function httpRequest({ method, action, data: baseParams }) {
     const params = baseParams;
 
-    let url = `${props.serverEndpoint}/${route}`;
+    let url = `${props.serverEndpoint}/${action}`;
     let body;
 
     if (typeof params === 'object') {
@@ -25,7 +25,13 @@ export default function createHttpRequest(props) {
     const options = { credentials: 'include', headers: HTTP_HEADERS, method, body };
     const parseJSON = (response) => response.json().then((json) => ({ json, response }));
 
-    return fetch(url, options).then(parseJSON).then(({ json }) => json, (err) => {
+    return fetch(url, options).then(parseJSON).then(({ json }) => {
+      if (json.status === 'ok') {
+        return json.data;
+      }
+
+      throw new Error(json.data.message);
+    }, (err) => {
       if (!process.env.BROWSER) {
         debug('dev')('API proxy failed', err);
       }

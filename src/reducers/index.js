@@ -1,12 +1,14 @@
 import { Map } from 'immutable';
-import { routerStateReducer } from 'redux-react-router';
+import { routerReducer } from 'react-router-redux'
 import appReducer from './app';
+import videosReducer from './videos';
 import entitiesReducer from './entities';
 
 const initialState = {
   app: undefined,
+  videos: undefined,
   entities: undefined,
-  router: undefined
+  routing: undefined
 };
 
 const emptyMap = new Map();
@@ -15,14 +17,15 @@ export default function combinedStore(state = initialState, action) {
   if (action.type === 'RESET_STORE') {
     state = {
       ...initialState,
-      router: state.router
+      routing: state.router
     };
   }
 
   const app = appReducer(state.app, action);
   const entities = entitiesReducer(state.entities, action);
-  const router = routerStateReducer(state.router, action);
-  const newState = { app, entities, router };
+  const routing = routerReducer(state.routing, action);
+  const videos = videosReducer(state.videos, action);
+  const newState = { app, entities, routing, videos };
 
   newState.errors = Object.keys(newState).reduce((_errors, key) => {
     const store = newState[key];

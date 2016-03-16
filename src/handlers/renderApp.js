@@ -5,8 +5,7 @@ export default function renderApp(props, handler) {
   const newProps = {
     app: props.app,
     children: props.children,
-    entities: props.entities,
-    router: props.router
+    entities: props.entities
   };
 
   return (<App {...newProps} />);

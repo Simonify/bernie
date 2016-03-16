@@ -14,7 +14,6 @@ export default class AppComponent extends Component {
 
   static propTypes = {
     app: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
     children: PropTypes.node
   };
 

@@ -8,7 +8,6 @@ export default class AppHandler extends Component {
   static propTypes = {
     app: PropTypes.object.isRequired,
     entities: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
     children: PropTypes.node
   };
 

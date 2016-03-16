@@ -1,16 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 import { connect } from 'react-redux';
-import { pushState } from 'redux-router';
+import { push } from 'react-router-redux';
 import ClassName from 'class-name';
 
-@immutableRenderDecorator
-@connect(() => ({}, { pushState }))
+@connect(() => ({}), { push })
 export default class Header extends Component {
   static propTypes = {
     scrolled: PropTypes.bool.isRequired,
     onScroll: PropTypes.func.isRequired,
-    pushState: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired
   };
 
   constructor(props, context) {
@@ -31,8 +30,8 @@ export default class Header extends Component {
             </a>
           </div>
           <div className="right">
-            <a className="btn" href="/submit" onClick={this._onClickSubmit}>
-              Submit your own video
+            <a className="btn" href="/record" onClick={this._onClickSubmit}>
+              Record your own video
             </a>
           </div>
         </div>
@@ -43,8 +42,8 @@ export default class Header extends Component {
             </a>
           </div>
           <div className="right">
-            <a className="btn" href="/submit" onClick={this._onClickSubmit}>
-              Submit your own video
+            <a className="btn" href="/record" onClick={this._onClickSubmit}>
+              Record your own video
             </a>
           </div>
         </div>
@@ -58,6 +57,6 @@ export default class Header extends Component {
 
   _onClickSubmit(event) {
     event.preventDefault();
-    this.props.pushState(null, '/submit');
+    this.props.push('/record');
   }
 }

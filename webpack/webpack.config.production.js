@@ -15,7 +15,7 @@ config.entry = {
 
 config.module.loaders.push(
   { test: /\.js$/, exclude: /node_modules|vendor/, loader: 'babel' },
-  { test: /\.css$/, exclude: /node_modules/, loader: cssLoader },
+  { test: /\.css$/, loader: cssLoader },
   { test: webpackIsoTools.regular_expression('images'), loader: 'url-loader?limit=10240' }
 );
 

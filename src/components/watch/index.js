@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
-import { pushState } from 'redux-router';
+import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import ClassName from 'class-name';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
-import { YOUTUBE } from 'constants/videos';
+import { YOUTUBE, RECORDER } from 'constants/videos';
 
 @immutableRenderDecorator
-@connect(() => ({}), { pushState })
+@connect(() => ({}), { push })
 export default class Watch extends Component {
   static contextTypes = {
     config: PropTypes.object.isRequired
@@ -58,7 +58,7 @@ export default class Watch extends Component {
 
   renderVideo() {
     switch (this.props.video.get('type')) {
-      case YOUTUBE:
+      case YOUTUBE: {
         const src = `https://www.youtube.com/embed/${this.props.video.get('id')}?autoplay=1&modestbranding=on`;
         return (
           <iframe
@@ -67,6 +67,16 @@ export default class Watch extends Component {
             allowFullScreen
           />
         );
+      }
+
+      case RECORDER: {
+        const src = `${this.context.config.staticHost || ''}/${this.props.video.get('id')}/video.mp4`;
+
+        return (
+          <video className="video" src={src} controls autoPlay />
+        );
+      }
+
       default:
         return null;
     }
@@ -77,7 +87,7 @@ export default class Watch extends Component {
       event.preventDefault();
       this.setState({ mounted: false });
       setTimeout(() => {
-        this.props.pushState(null, '/');
+        this.props.push('/');
       }, 550);
     }
   }

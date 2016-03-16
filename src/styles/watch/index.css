@@ -43,6 +43,10 @@
       border: 0;
       outline: 0;
     }
+
+    .video {
+      background-color: #000000;
+    }
   }
 
   .overlay {
