@@ -7,7 +7,7 @@ export default function getVideoImage(video, { staticHost } = {}) {
 
   switch (video.get('type')) {
     case YOUTUBE:
-      return `https://i.ytimg.com/vi/${video.get('id')}/maxresdefault.jpg`;
+      return `https://i.ytimg.com/vi/${video.get('service_id')}/maxresdefault.jpg`;
     case RECORDER:
       return `${staticHost || ''}/${video.get('id')}/1.png`;
     default:

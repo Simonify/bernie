@@ -10,7 +10,7 @@ export default function getOpenGraph(video, config) {
 
   switch (video.get('type')) {
     case YOUTUBE:
-      tags.push({ property: 'og:video', content: `https://www.youtube.com/v/${video.get('id')}` });
+      tags.push({ property: 'og:video', content: `https://www.youtube.com/v/${video.get('service_id')}` });
       break;
     case RECORDER: {
       const content = `${config.staticHost || ''}/${video.get('id')}/video.mp4`;

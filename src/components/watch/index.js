@@ -59,7 +59,7 @@ export default class Watch extends Component {
   renderVideo() {
     switch (this.props.video.get('type')) {
       case YOUTUBE: {
-        const src = `https://www.youtube.com/embed/${this.props.video.get('id')}?autoplay=1&modestbranding=on`;
+        const src = `https://www.youtube.com/embed/${this.props.video.get('service_id')}?autoplay=1&modestbranding=on`;
         return (
           <iframe
             className="iframe"
