@@ -1,46 +1,46 @@
 import { normalize } from 'normalizr';
 import { CALL_SERVER, CALL_SOCKET, CALL_HTTP } from 'constants/middleware';
 
-function callAction({ http, store, route, method, data }) {
-  return http({ store, method, route, data });
+function callAction({ http, store, action, method, data }) {
+  return http({ store, method, action, data });
 }
 
 export default function callServerMiddleware({ http, socket }) {
-  const serverMiddleware = store => next => action => {
-    const callServer = action[CALL_SERVER];
+  const serverMiddleware = store => next => _action => {
+    const callServer = _action[CALL_SERVER];
 
     if (typeof callServer === 'undefined') {
-      const callSocket = action[CALL_SOCKET];
+      const callSocket = _action[CALL_SOCKET];
 
       if (typeof callSocket === 'undefined') {
-        const callHttp = action[CALL_HTTP];
+        const callHttp = _action[CALL_HTTP];
 
         if (typeof callHttp === 'undefined') {
-          return next(action);
+          return next(_action);
         }
 
-        const { method, route, data } = callHttp;
+        const { method, action, data } = callHttp;
 
-        if (typeof route !== 'string') {
-          throw new Error('You must provide a route.');
+        if (typeof action !== 'string') {
+          throw new Error('You must provide a action.');
         }
 
-        return callAction({ http, store, method, route, data });
+        return callAction({ http, store, method, action, data });
       }
 
-      const { route, data } = callSocket;
+      const { action, data } = callSocket;
 
-      if (typeof route !== 'string') {
-        throw new Error('You must provide a route.');
+      if (typeof action !== 'string') {
+        throw new Error('You must provide a action.');
       }
 
-      return callAction({ socket, store, route, data });
+      return callAction({ socket, store, action, data });
     }
 
-    const { route, method, params, schema, types } = callServer;
+    const { action, method, params, schema, types } = callServer;
 
-    if (typeof route !== 'string') {
-      throw new Error('You must provide a server route.');
+    if (typeof action !== 'string') {
+      throw new Error('You must provide a server action.');
     }
 
     if (typeof method !== 'string') {
@@ -48,32 +48,34 @@ export default function callServerMiddleware({ http, socket }) {
     }
 
     if (!Array.isArray(types) || types.length !== 3 || !types.every(type => typeof type === 'string')) {
-      throw new Error('You must provide an array of three action type strings.');
+      throw new Error('You must provide an array of three _action type strings.');
     }
 
-    function actionWith(data) {
-      const finalAction = Object.assign({}, action, data);
+    function _actionWith(data) {
+      const finalAction = Object.assign({}, _action, data);
       delete finalAction[CALL_SERVER];
       return finalAction;
     }
 
     const [requestType, successType, failureType] = types;
 
-    next(actionWith({ type: requestType }));
+    next(_actionWith({ type: requestType }));
 
-    const promise = callAction({ http, socket, store, method, route, params });
+    const promise = callAction({ http, socket, store, method, action, params });
 
-    return promise.then((response) => {
+    return promise.then((_response) => {
+      const response = callServer.response ? callServer.response(_response ) : _response;
+
       if (schema) {
         return normalize(response, schema);
       }
 
       return response;
     }).then((response) => {
-      next(actionWith({ response, type: successType }));
+      next(_actionWith({ response, type: successType }));
       return response;
     }).catch((error) => {
-      next(actionWith({
+      next(_actionWith({
         type: failureType,
         error: error.message || 'Something bad happened'
       }));

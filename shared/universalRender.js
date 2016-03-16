@@ -1,14 +1,15 @@
 import React, { PropTypes } from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
+import { Router } from 'react-router';
 import { resolveUniversal } from 'shared/universalMiddleware';
 import createContext from 'shared/createContext';
 import HtmlComponent from 'server/components/Html';
 
 const { BROWSER } = process.env;
 
-export default function universalRender({ store, router, assets, options, userAgent }) {
-  const AppWithContext = createContext(router, {
+export default function universalRender({ store, routes, history, assets, options, userAgent }) {
+  const AppWithContext = createContext(<Router routes={routes} history={history} />, {
     config: PropTypes.object.isRequired
   }, { config: options });
 

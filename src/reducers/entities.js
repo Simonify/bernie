@@ -1,8 +1,7 @@
 import { Map, fromJS } from 'immutable';
 
 const defaultState = new Map({
-  users: new Map(),
-  events: new Map()
+  videos: new Map()
 });
 
 export default function entities(state = defaultState, action) {

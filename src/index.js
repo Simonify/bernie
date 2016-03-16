@@ -1,6 +1,8 @@
 import debug from 'debug';
 import createApp from './createApp';
 import './styles/index.css';
+import 'react-select/dist/react-select.css';
+
 
 if (process.env.BROWSER) {
   require('./vendor/facebook');

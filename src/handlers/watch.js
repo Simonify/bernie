@@ -1,28 +1,65 @@
 import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
-import Watch from 'components/watch';
-import getVideoById from 'fn/getVideoById';
-import getVideoImage from 'fn/getVideoImage';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import { fetchVideo } from 'actions/videos';
 import getOpenGraph from 'fn/getOpenGraph';
+import Watch from 'components/watch';
 
+@connect(({ entities }) => ({ videos: entities.get('videos') }), { fetchVideo, push })
 export default class WatchHandler extends Component {
+  static contextTypes = {
+    config: PropTypes.object.isRequired
+  };
+
   static propTypes = {
-    routeParams: PropTypes.object.isRequired
+    fetchVideo: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
+    routeParams: PropTypes.object.isRequired,
+    videos: PropTypes.object.isRequired,
   };
 
   constructor(props, context) {
     super(props, context);
 
+    this._videoNotFound = ::this._videoNotFound;
+
     const id = props.routeParams.id;
-    const video = getVideoById(id);
+    let video;
+
+    if (props.videos.has(id)) {
+      video = props.videos.get(id);
+    }
 
     this.state = { video };
   }
 
+  componentWillMount() {
+    if (!this.state.video) {
+      this.props.fetchVideo(this.props.routeParams.id);
+    }
+  }
+
   componentWillReceiveProps(props) {
     if (this.props.routeParams.id !== props.routeParams.id) {
-      const video = getVideoById(props.routeParams.id);
+      const id = props.routeParams.id;
+      const video = props.videos.get(id);
+
       this.setState({ video });
+
+      if (!video) {
+        props.fetchVideo(id).catch(this._videoNotFound);
+      }
+
+      return;
+    }
+
+    if (this.props.videos !== props.videos) {
+      const video = props.videos.get(props.routeParams.id);
+
+      if (this.state.video !== video) {
+        this.setState({ video });
+      }
     }
   }
 
@@ -33,9 +70,13 @@ export default class WatchHandler extends Component {
 
     return (
       <div className="handler">
-        <Helmet meta={getOpenGraph(this.state.video)} />
+        <Helmet meta={getOpenGraph(this.state.video, this.context.config)} />
         <Watch video={this.state.video} />
       </div>
     );
+  }
+
+  _videoNotFound() {
+    this.props.push('/');
   }
 }
