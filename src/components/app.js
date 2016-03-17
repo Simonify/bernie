@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 import ClassName from 'class-name';
 import Helmet from 'react-helmet';
+import getOpenGraph from 'fn/getOpenGraph';
 import Header from './header';
 import Home from './home';
 
@@ -27,7 +28,7 @@ export default class AppComponent extends Component {
 
     return (
       <div className={className} onScroll={this._onScroll}>
-        <Helmet title={this.context.config.title} />
+        <Helmet title={this.context.config.title} meta={getOpenGraph(this.context.config)} />
         <Header
           onScroll={this._onHeaderScroll}
           scrolled={this.state.headerScrolled}

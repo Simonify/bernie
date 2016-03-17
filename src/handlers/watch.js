@@ -70,7 +70,7 @@ export default class WatchHandler extends Component {
 
     return (
       <div className="handler">
-        <Helmet meta={getOpenGraph(this.state.video, this.context.config)} />
+        <Helmet meta={getOpenGraph(this.context.config, this.state.video)} />
         <Watch video={this.state.video} />
       </div>
     );
