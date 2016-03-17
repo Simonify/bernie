@@ -65,13 +65,14 @@ export default class Recorder extends Component {
   }
 
   _initialize(nodes) {
-    const mediaConstraints = {
-      audio: true,
-      video: true
-    };
-
     const onMediaSuccess = (stream) => {
       this._mediaStream = stream;
+      this._recorder = new MRecordRTC();
+      this._recorder.addStream(stream);
+      this._recorder.mediaType = {
+        audio: true,
+        video: true
+      };
 
       let stateMode;
       let timer;
@@ -105,18 +106,10 @@ export default class Recorder extends Component {
 
       const startRecording = () => {
         attachRecorder();
-
-        this._recorder = new MRecordRTC();
-        this._recorder.addStream(stream);
-        this._recorder.mediaType = {
-          audio: true,
-          video: true
-        };
-
         this._recorder.startRecording();
       };
 
-      const stopRecording = (a,b) => {
+      const stopRecording = () => {
         /**
          * Add a small delay as it seems to cut off videos early sometimes..
          */
@@ -166,6 +159,6 @@ export default class Recorder extends Component {
       console.error('media error', err);
     };
 
-    navigator.getUserMedia({ audio: true, video: true }, onMediaSuccess, onMediaError);
+    navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(onMediaSuccess).catch(onMediaError);
   }
 }
