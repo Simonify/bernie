@@ -30,9 +30,13 @@ export default class Recorder extends Component {
     const $script = require('scriptjs');
 
     $script('https://cdn.WebRTC-Experiment.com/RecordRTC.js', () => {
-      if (this._mounted !== false) {
-        this._initialize(nodes);
-      }
+      $script('https://cdn.webrtc-experiment.com/getMediaElement.js', () => {
+        $script('https://cdn.webrtc-experiment.com/gumadapter.js', () => {
+          if (this._mounted !== false) {
+            this._initialize(nodes);
+          }
+        });
+      });
     });
   }
 
