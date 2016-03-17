@@ -1,8 +1,8 @@
-import { Iterable, Map, Set, fromJS } from 'immutable';
+import { Iterable, Map, OrderedSet, fromJS } from 'immutable';
 import { FETCH_VIDEOS_SUCCESS } from 'constants/videos';
 
 const defaultState = new Map({
-  ids: new Set()
+  ids: new OrderedSet()
 });
 
 export default function app(state = defaultState, action) {
