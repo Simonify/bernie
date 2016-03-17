@@ -17,9 +17,13 @@ export default class Recorder extends Component {
 
   componentDidMount() {
     const node = findDOMNode(this);
+    const nodes = {
+      audio: node.querySelector('audio'),
+      video: node.querySelector('video')
+    };
 
     if (typeof window.MRecordRTC === 'function') {
-      this._initialize(node);
+      this._initialize(nodes);
       return;
     }
 
@@ -27,7 +31,7 @@ export default class Recorder extends Component {
 
     $script('https://cdn.WebRTC-Experiment.com/RecordRTC.js', () => {
       if (this._mounted !== false) {
-        this._initialize(node);
+        this._initialize(nodes);
       }
     });
   }
@@ -48,10 +52,15 @@ export default class Recorder extends Component {
   }
 
   render() {
-    return (<video className="recorder-component" />);
+    return (
+      <div className="recorder-component">
+        <video className="recorder-video" />
+        <audio className="recorder-audio" />
+      </div>
+    );
   }
 
-  _initialize(videoNode) {
+  _initialize(nodes) {
     const mediaConstraints = {
       audio: true,
       video: true
@@ -64,27 +73,30 @@ export default class Recorder extends Component {
       let timer;
 
       function attachRecorder() {
-        videoNode.muted = true;
-        videoNode.src = URL.createObjectURL(stream);
         stateMode = 'recorder';
-        videoNode.play();
+        nodes.video.muted = true;
+        nodes.video.src = URL.createObjectURL(stream);
+        nodes.video.play();
       };
 
-      const showRecording = () => {
-        this._recorder.getBlob(({ audio, video }) => {
-          stateMode = 'playback';
+      const showRecording = (url, type) => {
+        stateMode = 'playback';
 
-          videoNode.muted = false;
-          videoNode.src = URL.createObjectURL(video);
+        nodes[type].muted = false;
+        nodes[type].src = url;
+        nodes[type].play();
 
-          videoNode.onended = () => {
-            videoNode.src = URL.createObjectURL(video);
+        nodes[type].onended = () => {
+          nodes[type].src = URL.createObjectURL(this._recorder.getBlob()[type]);
+
+          if (type === 'video') {
             this.props.onEnd();
-          };
+          }
+        };
 
-          videoNode.play();
+        if (type === 'video') {
           this.props.onRecordingStop();
-        });
+        }
       };
 
       const startRecording = () => {
@@ -116,13 +128,21 @@ export default class Recorder extends Component {
 
         play: () => {
           if (stateMode === 'playback') {
-            videoNode.play();
+            for (const node in nodes) {
+              if (nodes.hasOwnProperty(node)) {
+                nodes[node].play();
+              }
+            }
           }
         },
 
         pause: () => {
           if (stateMode === 'playback') {
-            videoNode.pause();
+            for (const node in nodes) {
+              if (nodes.hasOwnProperty(node)) {
+                nodes[node].pause();
+              }
+            }
           }
         },
 
